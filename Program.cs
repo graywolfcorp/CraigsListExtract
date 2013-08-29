@@ -26,7 +26,7 @@ namespace CraigsListExtract
         {
             if ((args.Length == 1) && (args[0] != "-sites"))
             {
-                message = "Valid command is -sites. ReadMe.txt has more detail.";
+                message = "Valid command is -sites. README.md has more detail.";
             }
 
             if ((args.Length == 1) && (args[0] == "-sites") && (message == ""))
