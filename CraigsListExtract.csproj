@@ -63,11 +63,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Files\extract.bat" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\CraigsListExtract.txt" />
