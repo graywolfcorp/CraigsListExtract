@@ -1,0 +1,1 @@
+-s /search/jjj?query=c%23&zoomToPosting=&srchType=A&addOne=telecommuting -f C:\Projects\Graywolf\CraigsListExtract\Files\extract.html -d 30
