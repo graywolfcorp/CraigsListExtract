@@ -3,7 +3,7 @@ CraigsListExtract
 
 CraigsListExtract.exe (the app) is designed to automate searching across one or more sites within the CraigsList domain.
 
-The app is pre-configured to search for firewood at the fairbanks CL site. 
+The app is pre-configured to search for c# telecommuting jobs across all CL sites.
 
 The app requires several text files to exist in the app directory and to be configured for the sites and urls to extract.
 
