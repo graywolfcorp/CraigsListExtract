@@ -21,6 +21,7 @@ namespace CraigsListExtract
         static void Main(string[] args)
         {
 
+
         string message = "";
         try 
         {
@@ -54,6 +55,7 @@ namespace CraigsListExtract
                                     }
                                     else
                                     {
+                                        
                                         GetRss(commands[1], commands[3], Convert.ToInt32(commands[5]));
                                     }
                                 }
@@ -132,13 +134,13 @@ namespace CraigsListExtract
 
                                     )
                                 {
+                                    if (href.LastIndexOf("/") > href.LastIndexOf(".org"))
+                                    {
+                                        href = href.Substring(0, href.IndexOf(".org") + 4); //remove trailing slash and/or regional designation
+                                    }
+
                                     if (!urls.Contains(href))
                                     {
-                                        if (href.LastIndexOf("/") == href.Length-1)
-                                        {
-                                            href = href.TrimEnd(new Char[]{'/'});
-                                        }
-
                                         using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "SiteExtract.txt")) 
                                         {
                                             sw.WriteLine(href);
@@ -267,10 +269,18 @@ namespace CraigsListExtract
 
                                     dupePost = string.Concat(item.Title, item.Description.Substring(1, 30));
 
-                                    if ((Convert.ToDateTime(item.PubDate) >= DateTime.Now.AddDays(daysToSearch * -1)) && (!titles.Contains(dupePost)))  // 
+                                    if (!titles.Contains(dupePost))
                                     {
-                                        titles.Add(dupePost);
-                                        rssItems.Add(item);
+                                        if (item.PubDate == "" ) //rss output sometimes does not output date
+                                        {
+                                            titles.Add(dupePost);
+                                            rssItems.Add(item);
+                                        }
+                                        else if ((Convert.ToDateTime(item.PubDate) >= DateTime.Now.AddDays(daysToSearch * -1)))  
+                                        {
+                                            titles.Add(dupePost);
+                                            rssItems.Add(item);
+                                        }
                                     }
                                 }
                             }
