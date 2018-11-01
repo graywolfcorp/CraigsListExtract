@@ -1,1 +1,2 @@
--s /search/jjj?query=c%23&zoomToPosting=&srchType=A&addOne=telecommuting -f C:\Projects\Graywolf\CraigsListExtract\Files\extract.html -d 30
+-s /search/jjj?query=c%23&zoomToPosting=&srchType=A&addOne=telecommuting -f C:\Users\park\Source\GWC\CraigsListExtract\Files\extract.html -d 30
+REM-s /search/jjj?query=programmer&is_telecommuting=1 -f C:\Users\park\Source\GWC\CraigsListExtract\Files\extract.html -d 60

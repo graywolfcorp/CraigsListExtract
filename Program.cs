@@ -38,9 +38,13 @@ namespace CraigsListExtract
 
             if (message == "")
             {
-                if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "UrlsToExtract.txt"))
+                var appDirectory = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin\\Debug", "");
+
+                if (File.Exists(appDirectory + "files\\UrlsToExtract.txt"))
                 {
-                    string[] urls = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "UrlsToExtract.txt");
+                        
+
+                    string[] urls = File.ReadAllLines(appDirectory + "files\\UrlsToExtract.txt");
                         foreach (string line in urls)
                         {
                             try
@@ -56,7 +60,7 @@ namespace CraigsListExtract
                                     else
                                     {
                                         
-                                        GetRss(commands[1], commands[3], Convert.ToInt32(commands[5]));
+                                        GetRss(commands[1], commands[3], Convert.ToInt32(commands[5]), appDirectory);
                                     }
                                 }
                             }
@@ -170,7 +174,7 @@ namespace CraigsListExtract
            }
         }
 
-        static void GetRss(string queryString, string resultFile, int daysToSearch)
+        static void GetRss(string queryString, string resultFile, int daysToSearch, string appDirectory)
         {
             string[] excludePhrases = new string[] { "" };
             List<Rss> rssItems = new List<Rss>();
@@ -190,7 +194,7 @@ namespace CraigsListExtract
             {
                 if (!resultFile.Contains("\\"))
                 {
-                    resultFile = string.Concat(AppDomain.CurrentDomain.BaseDirectory, resultFile);
+                    resultFile = string.Concat(appDirectory, resultFile);
                 }
 
                 if (File.Exists(resultFile))
@@ -200,24 +204,24 @@ namespace CraigsListExtract
 
                 StreamReader streamReader;
 
-                if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "UrlsToExclude.txt"))
+                if (File.Exists(appDirectory + "files\\UrlsToExclude.txt"))
                 {
-                    urlsToExclude = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "UrlsToExclude.txt");
+                    urlsToExclude = File.ReadAllLines(appDirectory + "files\\UrlsToExclude.txt");
                 }
 
-                if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + "PhrasesToExclude.txt"))
+                if (File.Exists(appDirectory + "files\\PhrasesToExclude.txt"))
                 {
-                    excludePhrases = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "PhrasesToExclude.txt");
+                    excludePhrases = File.ReadAllLines(appDirectory + "files\\PhrasesToExclude.txt");
                 }
 
-                if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "CraigsListExtract.txt"))
+                if (!File.Exists(appDirectory + "files\\CraigsListExtract.txt"))
                 {
                     Console.WriteLine("CraigsListExtract.txt is missing. Please create.");
                     Console.ReadLine();
                     return;
                 }
 
-                streamReader = File.OpenText(AppDomain.CurrentDomain.BaseDirectory + "CraigsListExtract.txt");
+                streamReader = File.OpenText(appDirectory + "files\\CraigsListExtract.txt");
                 domain = streamReader.ReadLine();
 
                 while (domain != null)
