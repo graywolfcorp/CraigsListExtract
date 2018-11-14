@@ -1,7 +1,7 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
-/obj/Debug
-/bin/Debug
+/obj
+/bin
 /.vs/CraigsListExtract
+/.vscode
