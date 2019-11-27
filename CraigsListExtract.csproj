@@ -26,6 +26,9 @@
     <None Update="files\PhrasesToExclude.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Files\SiteExtract.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="files\UrlsToExclude.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

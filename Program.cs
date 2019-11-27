@@ -76,86 +76,60 @@ namespace CraigsListExtract
             }
 
             Console.WriteLine(message);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadLine();
         }
 
         private static void GetListOfSites()
         {
             string url, webPage;
-
-            string[] states = new string[] { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "MD", "MA", "MI", "MN", "MS", "MO", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" };
             File.Delete(AppDomain.CurrentDomain.BaseDirectory + "SiteExtract.txt");
-
-            List<string> urls = new List<string>();
+            var sbUrls = new StringBuilder();
 
             try
             {
-                foreach (string state in states)
+                url = "http://geo.craigslist.org/iso/us/";
+                string pattern = @"<a.*?>.*?</a>";
+
+                WebRequest webRequest;
+                webRequest = WebRequest.Create(url);
+
+                StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
+                webPage = responseReader.ReadToEnd();
+                responseReader.Close();
+
+                if (webPage.Contains("choose the site"))
                 {
-                    Console.WriteLine("Extract for:{0}", state);
+                    Regex linksExpression = new Regex(pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+                    MatchCollection matches = linksExpression.Matches(webPage);
 
-                    url = "http://geo.craigslist.org/iso/us/" + state.ToLower();
-                    string pattern = @"<a.*?>.*?</a>";
-
-                    WebRequest webRequest;
-                    webRequest = WebRequest.Create(url);
-
-                    StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
-                    webPage = responseReader.ReadToEnd();
-                    responseReader.Close();
-
-                    if (webPage.Contains("choose the site"))
+                    foreach (Match match in matches)
                     {
-                        Regex linksExpression = new Regex(pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-                        MatchCollection matches = linksExpression.Matches(webPage);
+                        string href;
+                        string temp = match.Groups[0].Value;
 
-                        foreach (Match match in matches)
+                        Match m2 = Regex.Match(temp, @"href=\""(.*?)\""", RegexOptions.Singleline);
+
+                        if (m2.Success)
                         {
-                            string href;
-                            string temp = match.Groups[0].Value;
+                            href = m2.Groups[1].Value;
+                            if (
+                                (href.Contains("craigslist") &&
+                                (href.Contains("www") == false) &&
+                                (href.Contains("geo") == false) &&
+                                (href.Contains("forums") == false))
 
-                            Match m2 = Regex.Match(temp, @"href=\""(.*?)\""", RegexOptions.Singleline);
-
-                            if (m2.Success)
+                                )
                             {
-                                href = m2.Groups[1].Value;
-                                if (
-                                    (href.Contains("craigslist") &&
-                                    (href.Contains("www") == false) &&
-                                    (href.Contains("geo") == false) &&
-                                    (href.Contains("forums") == false))
-
-                                    )
+                                if (href.LastIndexOf("/") > href.LastIndexOf(".org"))
                                 {
-                                    if (href.LastIndexOf("/") > href.LastIndexOf(".org"))
-                                    {
-                                        href = href.Substring(0, href.IndexOf(".org") + 4); //remove trailing slash and/or regional designation
-                                    }
-
-                                    if (!urls.Contains(href))
-                                    {
-                                        using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "SiteExtract.txt"))
-                                        {
-                                            sw.WriteLine(href);
-                                        }
-
-                                        urls.Add(href);
-                                    }
+                                    href = href.Substring(0, href.IndexOf(".org") + 4); //remove trailing slash and/or regional designation
                                 }
+                                sbUrls.AppendLine(href);
+                                Console.WriteLine(href);
                             }
                         }
                     }
-                    else
-                    {
-                        using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "SiteExtract.txt"))
-                        {
-                            sw.WriteLine("http://" + webRequest.Headers.Get(0));
-                        }
-
-                        urls.Add(url);
-                    }
-                }
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "SiteExtract.txt", sbUrls.ToString());
+                }             
             }
             catch (Exception e)
             {
