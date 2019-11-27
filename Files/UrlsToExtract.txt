@@ -1,4 +1,4 @@
 REM -s /search/jjj?query=c%23&zoomToPosting=&srchType=A&addOne=telecommuting -f C:\Users\Park\source\repos\CraigsListExtract\Files\extract.html -d 30
 REM -s /search/jjj?query=programmer&is_telecommuting=1 -f C:\Users\park\Source\GWC\CraigsListExtract\Files\extract.html -d 60
-REM -s /search/sof?is_telecommuting=1&employment_type=2 -f C:\Users\Park\source\repos\CraigsListExtract\Files\extract.html -d 60
--s /search/jjj?is_telecommuting=1&employment_type=2 -f C:\Users\Park\source\repos\CraigsListExtract\Files\extract.html -d 60
+-s /search/sof?is_telecommuting=1&employment_type=2 -f C:\Users\Park\source\repos\CraigsListExtract\Files\extract.html -d 60
+REM -s /search/jjj?is_telecommuting=1&employment_type=2 -f C:\Users\Park\source\repos\CraigsListExtract\Files\extract.html -d 60
